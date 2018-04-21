@@ -1,0 +1,39 @@
+#include<stdio.h>
+#include<pthread.h>
+#include<semaphore.h>
+pthread_t z1,z2,z3,z4,z5;
+pthread_mutex_t x1,x2;
+void *p(void * arg)
+{
+	 int a,s[10],p[10],sum=0,k=0,i,j;
+	pthread_mutex_lock(&x1);
+	for(i=0;i<10;i++)
+	{
+	 printf("Enter the priority  of %d  customer : ",i+1);
+     scanf("%d",&s[i]);
+     sum=sum+s[i];
+	}
+	for(i=0;i<=sum;i++)
+	{
+		for(j=0;j<10;j++)
+		if(i==s[j])
+		{
+			p[k]=s[j];
+			k++;
+		}
+	}
+	printf("__________________________BILL ACCORDING TO PRIORITY___________________________");
+	for(i=10;i>=0;i--)
+	{
+	printf("customer : %d priority\n",p[i]);}
+	pthread_mutex_unlock(&x1);
+	pthread_exit(NULL);
+
+}
+main()
+{
+     pthread_mutex_init(&x1,NULL);
+	pthread_mutex_init(&x2,NULL);
+	 pthread_create(&z1,NULL,&p,NULL);
+		pthread_join(z1,NULL);  
+}
